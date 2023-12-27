@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Создать новую запись</title>
+</head>
+<body>
+<h3>Создать новую запись</h3>
+<form th:action="@{/medicalRecords/create}" method="post" th:object="${medicalRecords}">
+    <input th:field="*{title}" type="text" name="title" id="title" placeholder="День недели">
+    <input th:field="*{text}" type="text" name="text" id="text" placeholder="Время записи">
+    <input type="text" name="categoryName" id="categoryName" placeholder="Фамилия врача">
+    <input type="text" name="pName" id="pName" placeholder="Почта пациента">
+    <input type="submit" value="Добавить запись"/>
+</form>
+</body>
+</html>

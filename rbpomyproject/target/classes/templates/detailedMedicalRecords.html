@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+<div>
+<h3>Запись</h3>
+    <h2 th:text="${medicalRecords.category.name}"></h2>
+<h1 th:text="${medicalRecords.title}"></h1>
+<h1 th:text="${medicalRecords.text}"></h1>
+</div>
+
+<form id="commentForm" th:action="@{/comment/create/}+${medicalRecords.id}" method="post" th:object="${Comment}">
+    <input th:field="*{commentText}" type="text" name="commentText" id="commentText" placeholder="Оставьте комментарий">
+    <input type="submit" value="Опубликовать статью"/>
+</form>
+
+<table>
+    <thead>
+    <tr>
+        <th>Author</th>
+        <th>Content</th>
+    </tr>
+    </thead>
+    <tbody id="commentsTable">
+    <!-- Здесь будут отображаться комментарии -->
+    <tr th:each="comment : ${Comments}">
+        <td th:text="${comment.author.username}"></td>
+        <td th:text="${comment.commentText}"></td>
+    </tr>
+    </tbody>
+</table>
+
+
+
+<!-- JavaScript для отправки AJAX-запроса и обновления данных -->
+<script th:inline="javascript">
+        $(document).ready(function() {
+            $("#commentForm").submit(function(e) {
+                e.preventDefault();
+
+                var formData = $(this).serialize();
+                $.post({
+                    url: $(this).attr("action"),
+                    data: formData,
+                    success: function(response) {
+                        if (response === 'success') {
+                            // Очистить введенный текст комментария
+
+                            var medicalRecordsId = /*[[${medicalRecords.id}]]*/; // Внедряем значение из модели Thymeleaf
+                        loadComments(medicalRecordsId);
+                            $("#commentText").val('');
+                            // Загрузить обновленные комментарии
+
+                        } else if (response === 'emptyComment') {
+                            alert('Комментарий не может быть пустым.');
+                        } else {
+                            alert('Произошла ошибка при создании комментария.');
+                        }
+                    }
+                });
+            });
+        });
+
+        function loadComments(medicalRecordsId) {
+            // Загрузить обновленные комментарии и заменить текущий фрагмент страницы
+            $("#commentsTable").load("/medicalRecords/" + medicalRecordsId + " #commentsTable");
+        }
+    </script>
+</body>
+</html>

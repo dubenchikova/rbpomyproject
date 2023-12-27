@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <title>Авторизуйтесь</title>
+</head>
+<body>
+<h1>Авторизуйтесь</h1>
+<div th:if="${param.error}">
+  Неверные логин или пароль.</div>
+<div th:if="${param.logout}">
+  Вы успешно вошли в свой аккаунт.</div>
+<form th:action="@{/login}" method="post">
+  <div>
+    <input type="email" name="username" placeholder="Почта"/>
+  </div>
+  <div>
+    <input type="password" name="password" placeholder="Пароль"/>
+  </div>
+  <input type="submit" value="Войти" />
+</form>
+
+<!-- Это для теста -->
+<body th:if="${base64QRCode != null}">
+<img th:src="@{'data:image/png;base64,' + ${base64QRCode}}" alt="QR Code">
+</body>
+
+
+<a href="/registration">Зарегистрироваться</a>
+</body>
+</html>

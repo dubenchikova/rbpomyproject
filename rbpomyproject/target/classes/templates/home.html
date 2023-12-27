@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor</title>
+</head>
+<body>
+</body>
+<form th:action="@{/profile}" method="get">
+    <input type="submit" value="Профиль">
+</form>
+    <!--        <p>${medicalRecords.title}</p>-->
+    <!--        <p>${medicalRecords.text}</p>-->
+    <!--        <p>${medicalRecords.author} | <a href="/medicalRecords/${medicalRecords.id}">Проччитать полностью</a></p>-->
+
+
+
+<!-- Вывод статей для дебагинга  -->
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Doctor</th>
+        <th>Patien</th>
+        <th>Content</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="medicalRecords : ${medicalRecordss}">
+        <td > <a th:href="@{'/medicalRecords/'+${medicalRecords.id}}"> Ссылка на статью </a>  </td>
+
+        <td th:text="${medicalRecords.category.name}"></td>
+        <td th:text="${medicalRecords.patient.username}"></td>
+        <td th:text="${medicalRecords.text}"></td>
+    </tr>
+    </tbody>
+</table>
+
+
+</html>
